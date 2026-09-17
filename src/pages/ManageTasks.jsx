@@ -73,7 +73,7 @@ function ManageTasks() {
             Add a Task Template
           </h2>
 
-          <form onSubmit={addTask} className="flex gap-3">
+          <form onSubmit={addTask} className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               value={newTitle}
@@ -84,7 +84,7 @@ function ManageTasks() {
             <button
               type="submit"
               disabled={submitting}
-              className="bg-brand-burgundy text-brand-gold font-medium px-6 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200 disabled:opacity-60"
+              className="bg-brand-burgundy text-brand-gold font-medium px-6 py-2.5 sm:py-0 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200 disabled:opacity-60"
             >
               {submitting ? 'Adding...' : 'Add'}
             </button>

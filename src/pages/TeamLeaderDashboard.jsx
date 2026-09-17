@@ -165,36 +165,36 @@ function TeamLeaderDashboard() {
   }
 
   const uploadPhoto = async (file) => {
-  let fileToUpload = file
+    let fileToUpload = file
 
-  try {
-    const imageCompression = (await import('browser-image-compression')).default
-    fileToUpload = await imageCompression(file, {
-      maxSizeMB: 0.3,
-      maxWidthOrHeight: 1200,
-      useWebWorker: true,
-    })
-  } catch (compressionError) {
-    console.error('Compression failed, uploading original file', compressionError)
-    fileToUpload = file
+    try {
+      const imageCompression = (await import('browser-image-compression')).default
+      fileToUpload = await imageCompression(file, {
+        maxSizeMB: 0.3,
+        maxWidthOrHeight: 1200,
+        useWebWorker: true,
+      })
+    } catch (compressionError) {
+      console.error('Compression failed, uploading original file', compressionError)
+      fileToUpload = file
+    }
+
+    const fileExt = file.name.split('.').pop()
+    const fileName = `${leaderId}-${Date.now()}.${fileExt}`
+
+    const { error: uploadError } = await supabase.storage
+      .from('task-photos')
+      .upload(fileName, fileToUpload)
+
+    if (uploadError) {
+      console.error(uploadError)
+      showToast('Photo upload failed')
+      return null
+    }
+
+    const { data } = supabase.storage.from('task-photos').getPublicUrl(fileName)
+    return data.publicUrl
   }
-
-  const fileExt = file.name.split('.').pop()
-  const fileName = `${leaderId}-${Date.now()}.${fileExt}`
-
-  const { error: uploadError } = await supabase.storage
-    .from('task-photos')
-    .upload(fileName, fileToUpload)
-
-  if (uploadError) {
-    console.error(uploadError)
-    showToast('Photo upload failed')
-    return null
-  }
-
-  const { data } = supabase.storage.from('task-photos').getPublicUrl(fileName)
-  return data.publicUrl
-}
 
   const handleDailyPhoto = async (task, file) => {
     const url = await uploadPhoto(file)
@@ -332,7 +332,7 @@ function TeamLeaderDashboard() {
             Add a Task
           </h2>
 
-          <form onSubmit={addCustomTask} className="flex gap-3 mb-5">
+          <form onSubmit={addCustomTask} className="flex flex-col sm:flex-row gap-3 mb-5">
             <input
               type="text"
               value={newTaskTitle}
@@ -342,7 +342,7 @@ function TeamLeaderDashboard() {
             />
             <button
               type="submit"
-              className="bg-brand-burgundy text-brand-gold font-medium px-6 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200"
+              className="bg-brand-burgundy text-brand-gold font-medium px-6 py-2.5 sm:py-0 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200"
             >
               Add
             </button>
@@ -373,7 +373,7 @@ function TeamLeaderDashboard() {
               This month: <span className="font-medium text-brand-burgundy">{monthlySales}</span> sales
             </span>
           </div>
-          <form onSubmit={handleSaveSales} className="flex gap-3">
+          <form onSubmit={handleSaveSales} className="flex flex-col sm:flex-row gap-3">
             <input
               type="number"
               min="0"
@@ -389,7 +389,7 @@ function TeamLeaderDashboard() {
             />
             <button
               type="submit"
-              className="bg-brand-burgundy text-brand-gold font-medium px-6 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200"
+              className="bg-brand-burgundy text-brand-gold font-medium px-6 py-2.5 sm:py-0 rounded-lg hover:bg-brand-burgundy-light transition-colors duration-200"
             >
               Save
             </button>
