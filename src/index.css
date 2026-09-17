@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-burgundy: #6B1220;
+  --color-brand-burgundy-light: #7D1A28;
+  --color-brand-gold: #C9A66B;
+  --color-brand-gold-light: #D4B483;
+  --color-brand-cream: #EFE6D8;
+  --color-brand-beige: #E8DCC8;
+  --color-brand-text: #2B2320;
+  --color-brand-success: #7A8450;
+
+--font-heading: 'Italiana', serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+}
